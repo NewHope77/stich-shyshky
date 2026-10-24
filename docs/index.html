@@ -110,6 +110,9 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
   <div id="hud">
     <div id="basket" aria-label="Кошик із шишками" hidden></div>
     <div class="btns">
+      <button class="rbtn" id="home" aria-label="До меню ігор" hidden>
+        <svg viewBox="0 0 24 24"><path d="M3.5 11.5L12 4l8.5 7.5M6 10v9.5h4.5v-5h3v5H18V10"/></svg>
+      </button>
       <button class="rbtn" id="snd" aria-label="Вимкнути звук">
         <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M17 9l5 6M22 9l-5 6"/></svg>
       </button>
@@ -713,6 +716,14 @@ $('play').addEventListener('click', () => {
   $('start').hidden = true; $('basket').hidden = false; playing = true;
   startRound();
   try { navigator.wakeLock?.request('screen').catch(() => {}); } catch (e) {}
+});
+const inRanok = new URLSearchParams(location.search).get('in') === 'ranok';
+if (inRanok) $('home').hidden = false;
+$('home').addEventListener('click', () => {
+  try { speechSynthesis.cancel(); } catch (e) {}
+  if (ac) ac.suspend();
+  if (!topLevel) parent.postMessage({ type: 'stich-close' }, location.origin);
+  else location.href = '../';
 });
 $('next').addEventListener('click', () => { initAudio(); $('win').hidden = true; round++; startRound(); });
 const snd = $('snd');
