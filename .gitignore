@@ -1,0 +1,5 @@
+# фото з кімнати — лише локально
+src/raw/
+src/cut/
+docs/artifact.html
+.DS_Store
